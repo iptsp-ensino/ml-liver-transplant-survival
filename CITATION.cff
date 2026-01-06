@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this software or its methodology, please cite the associated manuscript."
+
+title: "AI-Based Prediction of 12-Month Survival in Liver Graft Recipients"
+
+type: software
+
+authors:
+  - family-names: Leal
+    given-names: Adriano Galindo
+    affiliation: Institute for Technological Research (IPT), São Paulo, Brazil
+    orcid: https://orcid.org/0000-0001-7114-6830
+
+  - family-names: Oliveira
+    given-names: Jose Ricardo
+    affiliation: Institute for Technological Research (IPT), São Paulo, Brazil
+    orcid: https://orcid.org/0000-0003-2719-8224
+
+  - family-names: Macacari
+    given-names: Rodrigo Luiz
+    affiliation: Hospital das Clínicas (HCFMUSP), Faculty of Medicine, University of São Paulo, Brazil
+    orcid: https://orcid.org/0000-0002-2131-7707
+
+  - family-names: Ferraz-Neto
+    given-names: Ben-Hur
+    affiliation: Instituto do Fígado, Rede Américas, UnitedHealth Group, Brazil
+    orcid: https://orcid.org/0009-0002-3667-9660
+
+repository-code: https://github.com/iptsp-ensino/ai-liver-graft-survival
+
+license: Apache-2.0
+
+preferred-citation:
+  type: article
+  title: "A Study on the Use of Artificial Intelligence in Predicting the Life Expectancy of Liver Graft Recipients"
+  journal: "Computational and Structural Biotechnology Journal"
+  status: "under review"
+  year: 2026
