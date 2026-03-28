@@ -33,7 +33,6 @@ In real-world practice, graft acceptance relies on a complex combination of obje
 - Develop machine-learning models to predict **12-month survival after liver transplantation**.
 - Compare classical statistical approaches with modern AI-based methods under a unified evaluation protocol.
 - Explore **UMAP-based dimensionality reduction** for structural pattern analysis in high-dimensional transplant data.
-- Evaluate **autoencoders** as an unsupervised anomaly-detection baseline.
 - Provide a reproducible computational framework aligned with CSBJ and Elsevier standards.
 
 ---
@@ -43,8 +42,8 @@ In real-world practice, graft acceptance relies on a complex combination of obje
 - **Source:** São Paulo State liver-transplant registry  
 - **Custodian:** São Paulo State Department of Health (Secretaria de Estado da Saúde de São Paulo)  
 - **Study period:** 2007–2022  
-- **Final cohort:** 6,982 donor–recipient pairs  
-- **Features:** 82 donor-, recipient-, graft-, and logistics-related variables  
+- **Final cohort:** 7,098 donor–recipient pairs  
+- **Features:** 77 donor-, recipient-, graft-, and logistics-related variables  
 - **Outcome:** Survival ≥ 12 months vs. < 12 months post-transplant  
 
 All data were provided to the investigators in **fully anonymized form**, in compliance with Brazil’s General Data Protection Law (LGPD), under the terms set by the data custodian and with approval of the appropriate Research Ethics Committee.
@@ -59,57 +58,42 @@ All data were provided to the investigators in **fully anonymized form**, in com
 - Gradient Boosting  
 - XGBoost  
 - Support Vector Machine (SVM)  
-- Deep Neural Network (DNN)  
-- TabNet (attention-based model for tabular data)
-
-### Unsupervised Model
-- Autoencoder (anomaly detection)
 
 ### Dimensionality Reduction
-- **UMAP (Uniform Manifold Approximation and Projection)**  
+- **UMAP (Uniform Manifold Approximation and Projection)**
+- **PCA (Principal Component Analysis)**
+
   Used to investigate structural separation between survival and non-survival outcomes.
 
 ---
 
 ## Validation Strategy
 
-A **strict temporal validation protocol** was adopted to prevent information leakage and to reflect realistic evaluation conditions:
+A **strict window temporal validation protocol** was adopted to prevent information leakage and to reflect realistic evaluation conditions:
 
-- **Training:** 2007–2019  
-- **Validation:** 2020–2021  
-- **Held-out test:** 2022  
-
-Model performance was evaluated using **AUC–ROC**, with operating thresholds fixed from the validation set using **Youden’s J statistic** and applied unchanged to the held-out test set.
+- **Training:** 2007–2010  
+- **Validation:** 2011  
+- **Sliding Window:** 1
+- 
+Model performance was evaluated using **PR–ROC**, **Brier Score**, **Net Benefit**, with operating thresholds fixed from the validation set using **Youden’s J statistic** and applied unchanged to the held-out test set.
 
 ---
 
 ## Summary of Results
 
 - **Best-performing model:**  
-  Logistic Regression — AUC–ROC = 0.68 (95% CI: 0.65–0.71)
+  Logistic Regression — PR–ROC = 0.842, Brier Score = 0.159, Mean Net Benefit = 0.367
 
 - **Comparable performance:**  
-  XGBoost — AUC–ROC = 0.66 (95% CI: 0.63–0.69)  
-  Random Forest — AUC–ROC = 0.66 (95% CI: 0.63–0.69)
+  XGBoost — PR–ROC = 0.836, Brier Score = 0.159, Mean Net Benefit = 0.361
+  Random Forest — PR–ROC = 0.842, Brier Score = 0.159, Mean Net Benefit = 0.366
+  Gradient Boosting — PR–ROC = 0.831, Brier Score = 0.159, Mean Net Benefit = 0.365
+  SVM — PR–ROC = 0.840, Brier Score = 0.159, Mean Net Benefit = 0.365
 
-- **Moderate performance:**  
-  Gradient Boosting — AUC–ROC = 0.64 (95% CI: 0.61–0.67)  
-  SVM — AUC–ROC = 0.64 (95% CI: 0.61–0.67)
+- **Baseline:**  
+  Current Updated MELD — PR–ROC = 0.823, Brier Score = 0.204, Mean Net Benefit = 0.242
 
-- **Lower performance in this setting:**  
-  DNN — AUC–ROC = 0.61 (95% CI: 0.58–0.64)  
-  TabNet — AUC–ROC = 0.61 (95% CI: 0.58–0.64)  
-  Autoencoder — AUC–ROC = 0.57 (95% CI: 0.54–0.60)
-
-UMAP embeddings revealed a clear structural separation between recipients who survived beyond 12 months and those who did not, supporting the feasibility of outcome prediction using tabular clinical data.
-
----
-
-## Counterfactual Allocation Analysis
-
-A counterfactual simulation focusing on high-risk recipients (MELD ≥ 25 with death within 12 months) evaluated whether AI models could identify alternative donor–recipient pairings with higher predicted survival probabilities.
-
-Across the simulated scenarios, AI-based matching suggested alternative recipients in 100% of the evaluated cases. These findings are **hypothesis-generating** and do not imply clinical superiority, but they highlight potential avenues for future prospective evaluation.
+Overall, both PCA and UMAP indicate that post-transplant survival is not linearly separable, reinforcing the need for models capable of capturing complex nonlinear interactions among clinical variables.
 
 ---
 
